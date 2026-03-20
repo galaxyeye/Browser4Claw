@@ -87,7 +87,6 @@ const SkillSecurityReport: React.FC<SkillSecurityReportProps> = ({
   }
 
   const totalFindings = report.findings.length;
-  const isCritical = report.riskLevel === 'critical';
 
   return createPortal(
     <div
@@ -192,35 +191,33 @@ const SkillSecurityReport: React.FC<SkillSecurityReportProps> = ({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap gap-2 justify-end px-5 py-4 border-t dark:border-claude-darkBorder border-claude-border">
+        <div className="flex items-center justify-between px-5 py-4 border-t dark:border-claude-darkBorder border-claude-border">
           <button
             type="button"
             onClick={() => onAction('cancel')}
             disabled={isLoading}
-            className="px-4 py-2 text-sm rounded-xl dark:text-claude-darkTextSecondary text-claude-textSecondary hover:bg-claude-hover dark:hover:bg-claude-darkHover transition-colors disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium rounded-xl dark:text-claude-darkText text-claude-text dark:hover:bg-claude-darkSurfaceHover hover:bg-claude-surfaceHover transition-colors border dark:border-claude-darkBorder border-claude-border active:scale-[0.98] disabled:opacity-50"
           >
             {i18nService.t('cancel')}
           </button>
-          <button
-            type="button"
-            onClick={() => onAction('installDisabled')}
-            disabled={isLoading}
-            className="px-4 py-2 text-sm rounded-xl dark:bg-claude-darkBgSecondary bg-claude-bgSecondary dark:text-claude-darkText text-claude-text hover:bg-claude-hover dark:hover:bg-claude-darkHover transition-colors border dark:border-claude-darkBorder border-claude-border disabled:opacity-50"
-          >
-            {i18nService.t('securityInstallDisabled')}
-          </button>
-          <button
-            type="button"
-            onClick={() => onAction('install')}
-            disabled={isLoading}
-            className={`px-4 py-2 text-sm rounded-xl text-white transition-colors disabled:opacity-50 ${
-              isCritical
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-claude-accent hover:bg-claude-accent/90'
-            }`}
-          >
-            {i18nService.t('securityInstallAnyway')}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => onAction('installDisabled')}
+              disabled={isLoading}
+              className="px-4 py-2 text-sm font-medium rounded-xl bg-claude-accent hover:bg-claude-accentHover text-white transition-colors active:scale-[0.98] disabled:opacity-50"
+            >
+              {i18nService.t('securityInstallDisabled')}
+            </button>
+            <button
+              type="button"
+              onClick={() => onAction('install')}
+              disabled={isLoading}
+              className="px-4 py-2 text-sm font-medium rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20 hover:bg-orange-500/20 transition-colors active:scale-[0.98] disabled:opacity-50"
+            >
+              {i18nService.t('securityInstallAnyway')}
+            </button>
+          </div>
         </div>
       </div>
     </div>,

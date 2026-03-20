@@ -371,8 +371,17 @@ export async function scanSkillSecurity(skillDir: string): Promise<SkillSecurity
     console.warn('[SkillSecurity] Scan error (non-blocking):', err);
   }
 
-  // Truncate findings to limit
-  const truncatedFindings = allFindings.slice(0, MAX_FINDINGS);
+  // Deduplicate: same ruleId + same file → keep only the first occurrence
+  const seen = new Set<string>();
+  const deduped: SecurityFinding[] = [];
+  for (const f of allFindings) {
+    const key = `${f.ruleId}::${f.file}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(f);
+  }
+
+  const truncatedFindings = deduped.slice(0, MAX_FINDINGS);
   const riskScore = computeRiskScore(truncatedFindings);
 
   return {
