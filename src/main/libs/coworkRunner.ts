@@ -12,6 +12,7 @@ import { getElectronNodeRuntimePath, getEnhancedEnv, getEnhancedEnvWithTmpdir, g
 import { coworkLog, getCoworkLogPath } from './coworkLogger';
 import { ensurePythonPipReady, ensurePythonRuntimeReady } from './pythonRuntime';
 import { isQuestionLikeMemoryText, type CoworkMemoryGuardLevel } from './coworkMemoryExtractor';
+import { setCoworkProxySessionId } from './coworkOpenAICompatProxy';
 import { SCHEDULED_TASK_SWITCH_MESSAGE } from '../../scheduled-task/enginePrompt';
 import { z } from 'zod';
 

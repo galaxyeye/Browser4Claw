@@ -97,6 +97,9 @@ const SCHEDULED_TASK_CHANNEL_OPTIONS = [
   { value: 'qqbot', label: 'QQ' },
   { value: 'wecom', label: 'WeCom' },
   { value: 'popo', label: 'POPO' },
+  { value: 'nim', label: 'NIM' },
+  { value: 'openclaw-weixin', label: 'WeChat' },
+  { value: 'xiaomifeng', label: 'Xiaomifeng' },
 ] as const;
 const MIME_EXTENSION_MAP: Record<string, string> = {
   'image/png': '.png',
@@ -1443,6 +1446,9 @@ function listScheduledTaskChannels(): Array<{ value: string; label: string }> {
     }
     if (option.value === 'qqbot') {
       return enabledConfigKeys.has('qq');
+    }
+    if (option.value === 'openclaw-weixin') {
+      return enabledConfigKeys.has('weixin');
     }
     return enabledConfigKeys.has(option.value);
   });

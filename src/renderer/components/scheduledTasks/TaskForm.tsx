@@ -65,6 +65,9 @@ const IM_CHANNEL_VALUES = new Set([
   'qqbot',
   'wecom',
   'popo',
+  'nim',
+  'openclaw-weixin',
+  'xiaomifeng',
 ]);
 
 function isIMChannel(channel: string): boolean {
@@ -417,11 +420,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ mode, task, onCancel, onSaved }) =>
             className={`${inputClass} ${showConversationSelector ? 'flex-1 min-w-0' : ''}`}
           >
             <option value="none">{i18nService.t('scheduledTasksFormNotifyChannelNone')}</option>
-            {channelOptions.map((channel) => (
-              <option key={channel.value} value={channel.value}>
-                {channel.label}
-              </option>
-            ))}
+            {channelOptions.map((channel) => {
+              const unsupported = channel.value === 'openclaw-weixin' || channel.value === 'qqbot';
+              return (
+                <option key={channel.value} value={channel.value} disabled={unsupported}>
+                  {unsupported
+                    ? `${channel.label} (${i18nService.t('scheduledTasksChannelUnsupported')})`
+                    : channel.label}
+                </option>
+              );
+            })}
           </select>
           {showConversationSelector && (
             <select

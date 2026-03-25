@@ -67,9 +67,11 @@ export const CHANNEL_PLATFORM_MAP: Record<string, IMPlatform> = {
   qqbot: 'qq',
   wecom: 'wecom',
   'wecom-openclaw-plugin': 'wecom',
+  popo: 'popo',
   'moltbot-popo': 'popo',
   nim: 'nim',
   'openclaw-weixin': 'weixin',
+  xiaomifeng: 'xiaomifeng',
 };
 
 /** Reverse map: IM platform → preferred OpenClaw channel name. */

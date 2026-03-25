@@ -9,7 +9,7 @@ import type {
   ScheduledTaskRunWithName,
   TaskState,
 } from './types';
-import { parseChannelSessionKey, PLATFORM_TO_CHANNEL_MAP } from '../main/libs/openclawChannelSessionSync';
+import { parseChannelSessionKey, CHANNEL_PLATFORM_MAP, PLATFORM_TO_CHANNEL_MAP } from '../main/libs/openclawChannelSessionSync';
 import {
   ScheduleKind,
   PayloadKind,
@@ -207,9 +207,18 @@ function toGatewayDelivery(delivery?: ScheduledTaskDelivery): GatewayDelivery | 
     return result;
   }
 
+  // Translate logical UI channel names to OpenClaw channel names.
+  // e.g. 'popo' (UI/config key) → 'moltbot-popo' (OpenClaw plugin name).
+  const openclawChannel = delivery.channel
+    ? (() => {
+        const platform = CHANNEL_PLATFORM_MAP[delivery.channel];
+        return platform ? (PLATFORM_TO_CHANNEL_MAP[platform] ?? delivery.channel) : delivery.channel;
+      })()
+    : undefined;
+
   const result: GatewayDelivery = {
     mode: delivery.mode,
-    ...(delivery.channel ? { channel: delivery.channel } : {}),
+    ...(openclawChannel ? { channel: openclawChannel } : {}),
     ...(delivery.to ? { to: delivery.to } : {}),
     ...(delivery.accountId ? { accountId: delivery.accountId } : {}),
     ...(typeof delivery.bestEffort === 'boolean'
