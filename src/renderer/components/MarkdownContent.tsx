@@ -12,6 +12,8 @@ import 'katex/contrib/mhchem';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // @ts-ignore
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// @ts-ignore
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ClipboardDocumentIcon, CheckIcon, DocumentIcon, FolderIcon } from '@heroicons/react/24/outline';
 import { i18nService } from '../services/i18n';
 
@@ -20,7 +22,6 @@ const CODE_BLOCK_CHAR_LIMIT = 20000;
 const SYNTAX_HIGHLIGHTER_STYLE = {
   margin: 0,
   borderRadius: 0,
-  background: '#282c34',
 };
 const SAFE_URL_PROTOCOLS = new Set(['http', 'https', 'mailto', 'tel', 'file']);
 
@@ -175,6 +176,20 @@ const openExternalViaAnchorFallback = (url: string): void => {
   document.body.removeChild(anchor);
 };
 
+function useIsDark() {
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains('dark')
+  );
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+  return isDark;
+}
+
 const dispatchAppToast = (message: string): void => {
   window.dispatchEvent(new CustomEvent('app:showToast', { detail: message }));
 };
@@ -197,6 +212,12 @@ const CodeBlock: React.FC<any> = ({ node, className, children, ...props }) => {
     && trimmedCodeText.split('\n').length <= CODE_BLOCK_LINE_LIMIT;
   const [isCopied, setIsCopied] = useState(false);
   const copyTimeoutRef = useRef<number | null>(null);
+  const isDark = useIsDark();
+  const highlighterStyle = isDark ? oneDark : {
+    ...oneLight,
+    'pre[class*="language-"]': { ...(oneLight as Record<string, React.CSSProperties>)['pre[class*="language-"]'], background: '#f0f2f5' },
+    'code[class*="language-"]': { ...(oneLight as Record<string, React.CSSProperties>)['code[class*="language-"]'], background: '#f0f2f5' },
+  };
 
   useEffect(() => () => {
     if (copyTimeoutRef.current != null) {
@@ -222,21 +243,21 @@ const CodeBlock: React.FC<any> = ({ node, className, children, ...props }) => {
     if (!match) {
       return (
         <div className="my-2 relative group">
-          <div className="overflow-x-auto rounded-lg bg-[#282c34] text-[13px] leading-6">
+          <div className="overflow-x-auto rounded-lg dark:bg-[#282c34] bg-[#f0f2f5] text-[13px] leading-6">
             <button
               type="button"
               onClick={handleCopy}
-              className="absolute top-2 right-2 z-10 p-1.5 rounded-md bg-gray-700/80 text-gray-300 hover:bg-gray-600 transition-colors opacity-0 group-hover:opacity-100"
+              className="absolute top-2 right-2 z-10 p-2 rounded-md bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors opacity-0 group-hover:opacity-100 transform-gpu"
               title={i18nService.t('copyToClipboard')}
               aria-label={i18nService.t('copyToClipboard')}
             >
               {isCopied ? (
-                <CheckIcon className="h-4 w-4 text-green-500" />
+                <CheckIcon className="h-5 w-5 text-green-500" />
               ) : (
-                <ClipboardDocumentIcon className="h-4 w-4" />
+                <ClipboardDocumentIcon className="h-5 w-5" />
               )}
             </button>
-            <code className="block px-4 py-3 font-mono text-foreground whitespace-pre">
+            <code className="block px-4 py-3 font-mono dark:text-gray-100 text-gray-800 whitespace-pre">
               {trimmedCodeText}
             </code>
           </div>
@@ -252,29 +273,29 @@ const CodeBlock: React.FC<any> = ({ node, className, children, ...props }) => {
           <button
             type="button"
             onClick={handleCopy}
-            className="p-1.5 rounded-md hover:bg-surface-raised transition-colors"
+            className="p-2 rounded-md hover:bg-surface-raised transition-colors transform-gpu"
             title={i18nService.t('copyToClipboard')}
             aria-label={i18nService.t('copyToClipboard')}
           >
             {isCopied ? (
-              <CheckIcon className="h-4 w-4 text-green-500" />
+              <CheckIcon className="h-5 w-5 text-green-500" />
             ) : (
-              <ClipboardDocumentIcon className="h-4 w-4" />
+              <ClipboardDocumentIcon className="h-5 w-5" />
             )}
           </button>
         </div>
         {shouldHighlight ? (
           <SyntaxHighlighter
-            style={oneDark}
+            style={highlighterStyle}
             language={match[1]}
             PreTag="div"
-            customStyle={SYNTAX_HIGHLIGHTER_STYLE}
+            customStyle={{ ...SYNTAX_HIGHLIGHTER_STYLE, background: isDark ? '#282c34' : '#f0f2f5' }}
           >
             {trimmedCodeText}
           </SyntaxHighlighter>
         ) : (
-          <div className="m-0 overflow-x-auto bg-[#282c34] text-[13px] leading-6">
-            <code className="block px-4 py-3 font-mono text-foreground whitespace-pre">
+          <div className="m-0 overflow-x-auto dark:bg-[#282c34] bg-[#f0f2f5] text-[13px] leading-6">
+            <code className="block px-4 py-3 font-mono dark:text-gray-100 text-gray-800 whitespace-pre">
               {trimmedCodeText}
             </code>
           </div>
