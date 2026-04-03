@@ -1207,6 +1207,12 @@ const translations: Record<LanguageType, Record<string, string>> = {
     privacyDialogReject: '拒绝',
 
     'settings.enterprise.managed': '由企业统一管理',
+
+    // TaskForm unsaved changes confirmation
+    taskFormUnsavedChanges: '有未保存的修改',
+    taskFormLeaveConfirm: '离开后修改将丢失，确认离开吗？',
+    taskFormLeave: '离开',
+    taskFormStay: '继续编辑',
   },
   en: {
     // Common
@@ -2409,6 +2415,12 @@ const translations: Record<LanguageType, Record<string, string>> = {
     privacyDialogReject: 'Decline',
 
     'settings.enterprise.managed': 'Managed by enterprise',
+
+    // TaskForm unsaved changes confirmation
+    taskFormUnsavedChanges: 'Unsaved Changes',
+    taskFormLeaveConfirm: 'Your changes will be lost if you leave. Are you sure you want to leave?',
+    taskFormLeave: 'Leave',
+    taskFormStay: 'Keep Editing',
   }
 };
 
