@@ -618,13 +618,13 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
   // authType defaults to undefined on first open, which should behave as OAuth mode
   const minimaxIsOAuthMode = providers.minimax.authType !== 'apikey';
   const isBaseUrlLocked = (activeProvider === 'zhipu' && providers.zhipu.codingPlanEnabled) || (activeProvider === 'qwen' && providers.qwen.codingPlanEnabled) || (activeProvider === 'volcengine' && providers.volcengine.codingPlanEnabled) || (activeProvider === 'moonshot' && providers.moonshot.codingPlanEnabled) || (activeProvider === 'minimax' && minimaxIsOAuthMode);
-  
+
   // 创建引用来确保内容区域的滚动
   const contentRef = useRef<HTMLDivElement>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
   const emailCopiedTimerRef = useRef<number | null>(null);
   const updateCheckTimerRef = useRef<number | null>(null);
-  
+
   // 快捷键设置
   const [shortcuts, setShortcuts] = useState({
     newChat: 'Ctrl+N',
@@ -816,7 +816,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
   useEffect(() => {
     try {
       const config = configService.getConfig();
-      
+
       // Set general settings
       initialThemeRef.current = config.theme;
       initialLanguageRef.current = config.language;
@@ -980,7 +980,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
           }));
         }
       }
-      
+
       // Load provider-specific configurations if available
       // 合并已保存的配置和默认配置，确保新添加的 provider 能被显示
       if (config.providers) {
@@ -1024,7 +1024,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
           ) as ProvidersConfig;
         });
       }
-      
+
       // 加载快捷键设置
       if (config.shortcuts) {
         setShortcuts(prev => ({
@@ -1859,11 +1859,11 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
 
   const handleDeleteModel = (modelId: string) => {
     if (!providers[activeProvider].models) return;
-    
+
     const updatedModels = providers[activeProvider].models.filter(
       model => model.id !== modelId
     );
-    
+
     setProviders(prev => ({
       ...prev,
       [activeProvider]: {
@@ -1972,9 +1972,9 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
     setTestResult(null);
 
     // Check if provider has valid authentication (API Key or OAuth for Qwen)
-    const hasValidAuth = providerConfig.apiKey || 
+    const hasValidAuth = providerConfig.apiKey ||
       (testingProvider === 'qwen' && (providerConfig as any).oauthCredentials);
-    
+
     if (providerRequiresApiKey(testingProvider) && !hasValidAuth) {
       showTestResultModal({ success: false, message: i18nService.t('apiKeyRequired') }, testingProvider);
       setIsTesting(false);
@@ -1996,14 +1996,14 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
       // Apply Coding Plan endpoint switch
       let effectiveBaseUrl = resolveBaseUrl(testingProvider, providerConfig.baseUrl, getEffectiveApiFormat(testingProvider, providerConfig.apiFormat));
       let effectiveApiFormat = getEffectiveApiFormat(testingProvider, providerConfig.apiFormat);
-      
+
       // Handle Coding Plan endpoint switch for supported providers
       if ((providerConfig as { codingPlanEnabled?: boolean }).codingPlanEnabled && (effectiveApiFormat === 'anthropic' || effectiveApiFormat === 'openai')) {
         const resolved = resolveCodingPlanBaseUrl(testingProvider, true, effectiveApiFormat, effectiveBaseUrl);
         effectiveBaseUrl = resolved.baseUrl;
         effectiveApiFormat = resolved.effectiveFormat;
       }
-      
+
       let normalizedBaseUrl = effectiveBaseUrl.replace(/\/+$/, '');
 
       // Determine effective API key
@@ -3956,7 +3956,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
             {/* Logo & App Name */}
             <img
               src="logo.png"
-              alt="LobsterAI"
+              alt="B4Claw"
               className="w-16 h-16 mb-3 cursor-pointer select-none"
               onClick={() => {
                 const next = logoClickCount + 1;
@@ -3966,7 +3966,7 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
                 }
               }}
             />
-            <h3 className="text-lg font-semibold text-foreground">LobsterAI</h3>
+            <h3 className="text-lg font-semibold text-foreground">B4Claw</h3>
             <span className="text-xs text-secondary mt-1">v{appVersion}</span>
 
             {/* Info Card */}
@@ -4501,4 +4501,4 @@ const Settings: React.FC<SettingsProps> = ({ onClose, initialTab, notice, notice
   );
 };
 
-export default Settings; 
+export default Settings;

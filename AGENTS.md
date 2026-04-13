@@ -38,7 +38,7 @@ npm run openclaw:runtime:host   # current platform
 
 ## Architecture Overview
 
-LobsterAI is an Electron + React desktop application with two primary modes:
+B4Claw is an Electron + React desktop application with two primary modes:
 1. **Cowork Mode** - AI-assisted coding sessions powered by OpenClaw as the primary agent engine
 2. **Artifacts System** - Rich preview of code outputs (HTML, SVG, React, Mermaid)
 

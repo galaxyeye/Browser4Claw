@@ -1,21 +1,4 @@
-# LobsterAI — All-in-One Personal Assistant Agent
-
-<p align="center">
-  <img src="public/logo.png" alt="LobsterAI" width="120">
-</p>
-
-<p align="center">
-  <strong>A 24/7 personal assistant Agent that gets things done, built by NetEase Youdao</strong>
-</p>
-
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License"></a>
-  <br>
-  <img src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20Mobile-brightgreen?style=for-the-badge" alt="Platform">
-  <br>
-  <img src="https://img.shields.io/badge/Electron-40-47848F?style=for-the-badge&logo=electron&logoColor=white" alt="Electron">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React">
-</p>
+# B4Claw — All-in-One Personal Assistant Agent
 
 <p align="center">
   English · <a href="README_zh.md">中文</a>
@@ -23,7 +6,7 @@
 
 ---
 
-**LobsterAI** is an all-in-one personal assistant Agent developed by [NetEase Youdao](https://www.youdao.com/). It works around the clock to handle your everyday tasks — data analysis, making presentations, generating videos, writing documents, searching the web, sending emails, scheduling tasks, and more.
+**B4Claw** is an all-in-one personal assistant Agent developed by [NetEase Youdao](https://www.youdao.com/). It works around the clock to handle your everyday tasks — data analysis, making presentations, generating videos, writing documents, searching the web, sending emails, scheduling tasks, and more.
 
 At its core is **Cowork mode** — it executes tools, manipulates files, and runs commands in a local or sandboxed environment, all under your supervision. You can also reach the Agent via WeChat, WeCom, DingTalk, Feishu, QQ, Telegram, Discord, and more — getting work done from your phone anytime, anywhere.
 
@@ -57,8 +40,8 @@ At its core is **Cowork mode** — it executes tools, manipulates files, and run
 
 ```bash
 # Clone the repository
-git clone https://github.com/netease-youdao/LobsterAI.git
-cd LobsterAI
+git clone https://github.com/netease-youdao/B4Claw.git
+cd B4Claw
 
 # Install dependencies
 npm install
@@ -71,7 +54,7 @@ The dev server runs at `http://localhost:5175` by default.
 
 #### Develop with OpenClaw Agent Engine
 
-LobsterAI can use [OpenClaw](https://github.com/openclaw/openclaw) as its agent engine.
+B4Claw can use [OpenClaw](https://github.com/openclaw/openclaw) as its agent engine.
 The required OpenClaw version is pinned in `package.json` under `openclaw.version`.
 
 ```bash
@@ -157,7 +140,7 @@ OPENCLAW_SRC=/path/to/openclaw npm run dist:win
 ```
 
 Windows builds bundle a portable Python runtime under `resources/python-win` (included as installer resource `python-win`), so end users do not need to install Python manually.
-The bundled runtime is interpreter-focused and does not preinstall LobsterAI skill Python packages; those can be installed at runtime on demand.
+The bundled runtime is interpreter-focused and does not preinstall B4Claw skill Python packages; those can be installed at runtime on demand.
 By default, packaging downloads the official Python embeddable runtime from python.org if no prebuilt archive is provided.
 For offline/non-network builds, provide a prebuilt runtime archive explicitly.
 
@@ -168,7 +151,7 @@ Offline/runtime source options for packaging:
 
 ## Architecture
 
-LobsterAI uses Electron's strict process isolation. All cross-process communication goes through IPC.
+B4Claw uses Electron's strict process isolation. All cross-process communication goes through IPC.
 
 ### Process Model
 
@@ -236,7 +219,7 @@ SKILLs/                              # Skill definitions
 
 ## Cowork System
 
-Cowork is the core feature of LobsterAI — an AI working session system powered by OpenClaw as the primary agent engine. Designed for productivity scenarios, it can autonomously complete complex tasks like data analysis, document generation, and information retrieval.
+Cowork is the core feature of B4Claw — an AI working session system powered by OpenClaw as the primary agent engine. Designed for productivity scenarios, it can autonomously complete complex tasks like data analysis, document generation, and information retrieval.
 
 ### Execution Modes
 
@@ -261,7 +244,7 @@ All tool invocations involving file system access, terminal commands, or network
 
 ## Skills System
 
-LobsterAI ships with 29 built-in skills covering productivity, creative, investment research, and automation scenarios, configured via `SKILLs/skills.config.json`:
+B4Claw ships with 29 built-in skills covering productivity, creative, investment research, and automation scenarios, configured via `SKILLs/skills.config.json`:
 
 | Skill | Function | Typical Use Case |
 |-------|----------|-----------------|
@@ -298,7 +281,7 @@ Custom skills can be created via `skill-creator` and hot-loaded at runtime.
 
 ## Scheduled Tasks
 
-LobsterAI supports scheduled tasks that let the Agent automatically execute recurring work on a set schedule.
+B4Claw supports scheduled tasks that let the Agent automatically execute recurring work on a set schedule.
 
 ### How to Create
 
@@ -319,7 +302,7 @@ Scheduled tasks are powered by Cron expressions, supporting minute, hourly, dail
 
 ## IM Integration — Mobile Remote Control
 
-LobsterAI can bridge the Agent to multiple IM platforms. Send a message from your phone via IM to remotely trigger the desktop Agent — command your personal assistant anytime, anywhere.
+B4Claw can bridge the Agent to multiple IM platforms. Send a message from your phone via IM to remotely trigger the desktop Agent — command your personal assistant anytime, anywhere.
 
 | Platform | Protocol | Description |
 |----------|----------|-------------|
@@ -338,7 +321,7 @@ Configure the corresponding platform Token/Secret in the Settings panel to enabl
 
 ## Persistent Memory
 
-LobsterAI's memory system is built on OpenClaw and persists information as files in the working directory, so the Agent remembers your preferences and context across sessions.
+B4Claw's memory system is built on OpenClaw and persists information as files in the working directory, so the Agent remembers your preferences and context across sessions.
 
 ### Memory File Structure
 
@@ -381,7 +364,7 @@ All data is stored in a local SQLite database (`lobsterai.sqlite` in the user da
 
 ## Security Model
 
-LobsterAI enforces security at multiple layers:
+B4Claw enforces security at multiple layers:
 
 - **Process Isolation** — Context isolation enabled, node integration disabled
 - **Permission Gating** — Tool invocations require explicit user approval
@@ -426,7 +409,7 @@ Currently English and Chinese are supported. Switch languages in the Settings pa
 
 ## OpenClaw Version Management
 
-LobsterAI pins its OpenClaw dependency to a specific release version, declared in `package.json`:
+B4Claw pins its OpenClaw dependency to a specific release version, declared in `package.json`:
 
 ```json
 {
@@ -527,7 +510,7 @@ Please include in your PR description: a summary of changes, linked issue (if an
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=netease-youdao/LobsterAI&type=date&legend=top-left)](https://www.star-history.com/#netease-youdao/LobsterAI&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=netease-youdao/B4Claw&type=date&legend=top-left)](https://www.star-history.com/#netease-youdao/B4Claw&type=date&legend=top-left)
 
 ---
 

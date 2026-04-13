@@ -105,8 +105,8 @@ export function getClaudeCodePath(): string {
   // We need to look in the project root
   const appPath = app.getAppPath();
   // If appPath ends with dist-electron, go up one level
-  const rootDir = appPath.endsWith('dist-electron') 
-    ? join(appPath, '..') 
+  const rootDir = appPath.endsWith('dist-electron')
+    ? join(appPath, '..')
     : appPath;
 
   return join(rootDir, 'node_modules/@anthropic-ai/claude-agent-sdk/cli.js');
@@ -301,7 +301,7 @@ export function resolveCurrentApiConfig(target: OpenAICompatProxyTarget = 'local
 
   const resolvedBaseURL = matched.baseURL;
   let resolvedApiKey = matched.providerConfig.apiKey?.trim() || '';
-  
+
   // Handle Qwen OAuth credentials
   if (matched.providerName === 'qwen' && !resolvedApiKey && (matched.providerConfig as any).oauthCredentials) {
     const oauthCreds = (matched.providerConfig as any).oauthCredentials;
@@ -315,7 +315,7 @@ export function resolveCurrentApiConfig(target: OpenAICompatProxyTarget = 'local
       resolvedApiKey = oauthCreds.access; // Still try to use it, server might refresh
     }
   }
-  
+
   // Providers that don't require auth (e.g. Ollama) still need a non-empty
   // placeholder so downstream components (OpenClaw gateway, compat proxy)
   // don't reject the request with "No API key found for provider".
@@ -406,7 +406,7 @@ export function resolveRawApiConfig(): ApiConfigResolution {
   let apiKey = matched.providerConfig.apiKey?.trim() || '';
   let effectiveBaseURL = matched.baseURL;
   let effectiveApiFormat = matched.apiFormat;
-  
+
   // Handle Qwen OAuth credentials for OpenClaw gateway
   if (matched.providerName === 'qwen' && !apiKey && (matched.providerConfig as any).oauthCredentials) {
     const oauthCreds = (matched.providerConfig as any).oauthCredentials;
@@ -414,12 +414,12 @@ export function resolveRawApiConfig(): ApiConfigResolution {
     const expiryBuffer = 5 * 60 * 1000;
     if (Date.now() < (oauthCreds.expires - expiryBuffer)) {
       apiKey = oauthCreds.access; // Use access token as API key
-      
+
       // Use OAuth resourceUrl as baseURL if available
       if (oauthCreds.resourceUrl) {
         effectiveBaseURL = normalizeQwenBaseUrl(oauthCreds.resourceUrl);
         effectiveApiFormat = 'openai'; // OAuth endpoints use OpenAI format
-        
+
         // Map specific model IDs to OAuth endpoint model names
         matched.modelId = mapQwenModelToOAuthModel(matched.modelId, matched.supportsImage);
       }
@@ -427,17 +427,17 @@ export function resolveRawApiConfig(): ApiConfigResolution {
       // Token expired, should refresh in background
       console.warn('Qwen OAuth token expired for OpenClaw gateway, please refresh credentials');
       apiKey = oauthCreds.access; // Still try to use it, server might refresh
-      
+
       if (oauthCreds.resourceUrl) {
         effectiveBaseURL = normalizeQwenBaseUrl(oauthCreds.resourceUrl);
         effectiveApiFormat = 'openai';
-        
+
         // Map specific model IDs to OAuth endpoint model names
         matched.modelId = mapQwenModelToOAuthModel(matched.modelId, matched.supportsImage);
       }
     }
   }
-  
+
   console.log('[ClaudeSettings] resolved raw API config:', JSON.stringify({
     ...matched,
     providerConfig: { ...matched.providerConfig, apiKey: apiKey ? '***' : '' },
@@ -472,7 +472,7 @@ function normalizeQwenBaseUrl(value: string | undefined): string {
 }
 
 /**
- * Map LobsterAI model IDs to OAuth endpoint model names
+ * Map B4Claw model IDs to OAuth endpoint model names
  * OAuth endpoint only supports 'coder-model' and 'vision-model'
  */
 function mapQwenModelToOAuthModel(modelId: string, supportsImage?: boolean): string {
@@ -480,7 +480,7 @@ function mapQwenModelToOAuthModel(modelId: string, supportsImage?: boolean): str
   if (supportsImage) {
     return 'vision-model';
   }
-  
+
   // For all other models (including qwen3.5-plus, qwen3-coder-plus), use coder-model
   return 'coder-model';
 }
@@ -520,7 +520,7 @@ export function resolveAllProviderApiKeys(): Record<string, string> {
 
     return result;
   }
-  
+
 
 export function buildEnvForConfig(config: CoworkApiConfig): Record<string, string> {
   const baseEnv = { ...process.env } as Record<string, string>;
